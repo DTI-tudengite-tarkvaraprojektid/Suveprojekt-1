@@ -7,7 +7,7 @@
 
 	//muutujad võimalike veateadetega
 	$firstNameError = "";
-  $lastNameError = "";
+    $lastNameError = "";
 	$emailError = "";
 	$passwordError = "";
 	$error = "";
@@ -21,7 +21,7 @@
 	}else{
 		$firstNameError="Palun sisesta eesnimi!";
 	}
-  if(isset($_POST["submitUserData"])){
+   if(isset($_POST["submitUserData"])){
 	//var_dump($_POST); //Tähtis array $_POST
 	if (isset($_POST["lastName"]) and !empty($_POST["lastName"])){
 		//$name=$_POST["firstName"];
@@ -34,13 +34,30 @@
 	}else{
 		$emailError = "Sisestage korrektne email!";
 	}
+
 	//passwordi kontroll
-	if(strlen($_POST["password"]) < 8){
-		$passwordError = "Salasõna peab olema vähemalt 8 tähemärgi pikkune";
+	if(!empty($_POST["password"]) and ($_POST["password"] == $_POST["password2"])){
+		//$password=$_POST["password"];
+		$password = test_input($_POST["password"]);
+		$password2 = test_input($_POST["password2"]);
+
+	if (strlen($_POST["password"]) < '8' ) {
+		$passwordError = "Salasõna peab olema vähemalt 8 tähemärgi pikkune!";
+		} 
+	}
+	else {
+		if($_POST["password"] != $_POST["password2"]) {
+			$passwordError = "Salasõnad ei kattu!";
+			if (strlen($_POST["password"]) < '8' ) {
+				$passwordError = "Salasõna peab olema vähemalt 8 tähemärgi pikkune!";
+				} 
+			} else{
+		    $passwordError = "Palun sisestage salasõna!";
+			}
 	}
 	//kui kõik on korras, siis salvestame kasutaja
 	if(empty($firstNameError) and empty($lastNameError) and empty($emailError) and empty($passwordError)){
-		$notice = signup($firstName, $lastName, $email, $_POST["password"]);
+		$notice = signup($firstName, $lastName, $email, $password, $password2);
 		echo $notice;
 		echo"<script language='javascript'>
 				alert('Kasutaja loodud!');
@@ -51,6 +68,9 @@
 	}
 	}//kui on nuppu vajutatud lõppeb ära
 }
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -64,19 +84,23 @@
 	<br>
 
 	<div id="main">
+	   <div> <img src="signature.png" id="logo" alt="logo"></div>
 		<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 		    <h1>Konto loomine</h1>
 			<input name="firstName" type="text" placeholder="Eesnimi" value="<?php echo $firstName; ?>"><br>
       <input name="lastName" type="text" placeholder="Perekonnanimi" value="<?php echo $lastName; ?>"><br>
 			<input type="email" name="email" placeholder="E-Mail" value="<?php echo $email; ?>"><br>
-			<input type="password" name="password" type="text" placeholder="Salasõna" >
-			<br>
-			<input name="submitUserData" type="submit" value="Loo kasutaja">
-			<br>
-			<br>
+			<input type="password" name="password" type="text" placeholder="Salasõna" ><br>
+			<input type="password" name="password2" type="text" placeholder="Salasõna uuesti" ><br>
+			<input name="submitUserData" type="submit" value="Loo kasutaja"><br>
+		<br>
 			<a style="text-align:left;" href="avaleht.php">Tagasi avalehele</a>
 		</form>
 		<a1><?php echo $error; ?></a1>
+		<a1><?php echo $passwordError; ?></a1>
+		<a1><?php echo $emailError; ?></a1>
+		<a1><?php echo $lastNameError; ?></a1>
+		<a1><?php echo $firstNameError; ?></a1>
 	</div>
 </body>
 </html>

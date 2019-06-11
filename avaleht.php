@@ -34,7 +34,10 @@
 </head>
 <body>
   <body>
-      <div id="main">
+     <div id="main">
+     <div> <img src="signature.png" id="logo" alt="logo"></div>
+      <h2>Parim lahendus Sinu lepingute haldamiseks!</h2>
+          <p>Signature on uudne tarkvara teie lepingute paremaks ning turvalisemaks käsitlemiseks. Hoiusta lepinguid, saa märku nende lõppemisest, pikenda ning vajadusel kustuta neid – kõik mugavalt ühest kohast.</p>
           <h1>Sisselogimine</h1>
           <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
               <input type="email" name="email" placeholder="E-Mail" value="<?php echo $email; ?>"><br>

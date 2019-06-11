@@ -39,7 +39,7 @@
       <a style="font-family: 'digital-clock-font'; cursor:pointer" href="upload.php">Upload</a>
   <br>
   <br>
-  <a id="text" style="font-family: 'digital-clock-font';cursor:pointer" class="nupp2">View files</a>
+  <a id="text" style="font-family: 'digital-clock-font';cursor:pointer" href="myfiles.php">View files</a>
   <br>
   <br>
   <a href="?logout=1">Logout</a>

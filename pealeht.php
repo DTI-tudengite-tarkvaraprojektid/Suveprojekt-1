@@ -34,16 +34,14 @@
 </head>
 <body>
   <div id="mySidenav" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <h1 id="sidenavMenu">Menüü</h1>
-      <a style="font-family: 'digital-clock-font'; cursor:pointer" href="upload.php">Upload</a>
+    <h1 id="text">Tere, <?php echo $_SESSION["userName"]; ?>!</h1>
+      <a style="font-family: 'digital-clock-font'; cursor:pointer" href="upload.php">Lae üles</a>
   <br>
   <br>
-  <a id="text" style="font-family: 'digital-clock-font';cursor:pointer" href="myfiles.php">View files</a>
+  <a id="text" style="font-family: 'digital-clock-font';cursor:pointer" href="myfiles.php">Sinu lepingud</a>
   <br>
   <br>
-  <a href="?logout=1">Logout</a>
+  <a href="?logout=1">Logi välja</a>
   </div>
-  <span style="font-size:20px; color:black;cursor:pointer" onclick="openNav()">&#9776; Lisavalikud</span>
 </body>
 </html>

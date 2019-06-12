@@ -1,14 +1,14 @@
 <?php
-require ("../../config.php");
+require ("../../../config.php");
 $database = "if18_andri_ka_1";
 session_start();
 function signin($email, $password){
 	$notice = "";
 	$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
-	$stmt = $mysqli->prepare("SELECT id, email, password FROM kasutajad WHERE email=?");
+	$stmt = $mysqli->prepare("SELECT id, firstname, email, password FROM kasutajad WHERE email=?");
 	echo $mysqli->error;
 	$stmt->bind_param("s", $email);
-	$stmt->bind_result($idFromDb, $emailFromDb, $passwordFromDb);
+	$stmt->bind_result($idFromDb, $firstNameFromDb, $emailFromDb, $passwordFromDb);
 	if($stmt->execute()){
 		//Kui päring õnnestus
 	  if($stmt->fetch()){
@@ -21,6 +21,7 @@ function signin($email, $password){
 			$notice = "Logisite sisse";
 			//Määran sessiooni muutujad
 			$_SESSION["userId"] = $idFromDb;
+			$_SESSION["userName"] = $firstNameFromDb;
 			$_SESSION["userEmail"] = $emailFromDb;
 			$_SESSION["userCounter"] = $counterFromDb;
 			//liigume kohe vaid sisselogitudele mõeldud pealehele
@@ -101,12 +102,20 @@ function signup($firstName, $lastName, $email, $password){
 		echo $mysqli->error;
 		$stmt->bind_result($photoId, $description, $dateFrom, $dateTo);
 		$stmt -> execute();
+		echo '<div class="photoRow" id="photoRow"> ';
+		echo "\n";
 		while($stmt->fetch()){
-				echo '<img class="photos" src="uploads/' .$description .'" id="' .$photoId .'" alt="' .$description .'" style="width:20%; height:20%; max-width:300px">';
-				echo '<br>';
+				echo '<div class="photoColumn" id="photoColumn"> ';
+				echo "\n";
+				echo '<img data-fn=' .$description .' class="photo" src="uploads/' .$description .'" data-id="' .$photoId .'" alt="' .$description .'" style="width:20%; height:20%; max-width:300px">';
+				echo "\n";
 				echo " <a href=deleteThisFile.php?id=" .$photoId ."&file=".$description ." class='deleteBtn' >Delete</a> ";
-				$fileToDelete =$description;
+				echo "\n";
+				echo '</div>';
 		}
+		echo "\n";
+		echo '</div>';
+		echo "\n";
 		if(empty($html)){
 			$html = "<p>Kahjuks pilte pole!</p> \n";
 		}

@@ -17,6 +17,7 @@ if(isset($_POST['submit'])){
   $file = $_FILES['fileToUpload'];
   $dateFrom = date('Y-m-d', strtotime($_POST['algus']));
   $dateTo = date('Y-m-d', strtotime($_POST['lopp']));
+  $dateNotice = date('Y-m-d', strtotime($_POST['alert']));
   $description = $_REQUEST['Description'];
   $filename = $_FILES['fileToUpload']['name'];
   $fileTmpName = $_FILES['fileToUpload']['tmp_name'];
@@ -33,7 +34,7 @@ if(isset($_POST['submit'])){
         $fileNameNew =  $description .'.' .pathinfo($_FILES['fileToUpload']['name'],PATHINFO_EXTENSION);
         $fileDestination = 'uploads/'.$fileNameNew;
         move_uploaded_file($fileTmpName, $fileDestination);
-        upload($description, $dateFrom, $dateTo);
+        upload($description, $dateFrom, $dateTo, $dateNotice);
       } else {
         echo "fail on liiga suur";
       }
@@ -82,6 +83,8 @@ if(isset($_POST['submit'])){
       <p>Lepingu lõpp: </p>
       <input type="date" id="lopp" name="lopp">
       <br>
+      <p>Teavita lepingu lõpukuupäevast: </p>
+      <input type="date" id="alert" name="alert">
       <br>
       <input TYPE="submit" name="submit" value="Lae üles">
   </form>

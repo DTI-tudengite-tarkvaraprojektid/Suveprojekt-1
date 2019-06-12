@@ -70,7 +70,7 @@ function signup($firstName, $lastName, $email, $password){
 	$stmt ->close();
 	$mysqli->close();
   }
-	function upload($description, $dateFrom, $dateTo){
+	function upload($description, $dateFrom, $dateTo, $dateNotice){
 		global $tempFileName;
 		$notice ="";
 		$id = $_SESSION["userId"];
@@ -85,8 +85,8 @@ function signup($firstName, $lastName, $email, $password){
 			echo "Sellise nimega pilt on olemas.";
 		}else{
 			$stmt -> close();
-			$stmt = $mysqli->prepare("INSERT INTO failid (failinimi, algus, lopp, kasutaja_id) VALUES(?,?,?,?)");
-			$stmt->bind_param("sssi", $description, $dateFrom, $dateTo, $id);
+			$stmt = $mysqli->prepare("INSERT INTO failid (failinimi, algus, lopp, teavitus, kasutaja_id) VALUES(?,?,?,?,?)");
+			$stmt->bind_param("sssi", $description, $dateFrom, $dateTo, $dateNotice, $id);
 			echo "teade: ".$mysqli->error;
 			$stmt->execute();
 			echo $stmt->error;

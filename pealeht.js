@@ -6,7 +6,7 @@ window.onload=function(){
 };
 
 function openNav() {
-  document.getElementById("mySidenav").style.width = "250px";
+  document.getElementById("mySidenav").style.width = "15%";
   changeColorButton.addEventListener('click', changeBackgroundColor);
 
 }

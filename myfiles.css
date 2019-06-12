@@ -1,0 +1,68 @@
+.sidenav {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    background-color: black; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 20px; /* Place content 60px from the top */
+  }
+  .sidenav h1 {
+    padding: 8px 8px 40px 32px;
+    text-decoration: none;
+    font-size: 35px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+    margin-bottom: 250px;
+    border-bottom-color: #FFA500;
+    border-bottom-style: dotted;
+  }
+  .sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+  }
+  .sidenav a:hover{
+    color:  #FFA500;
+  }
+  .sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+  @media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+  }
+  #sidenavMenu{
+    color: grey;
+    padding-left: 5%;
+  }
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: 15% auto;
+    grid-template-rows: 100%;
+    width: 100vw;
+	height: 100vh;
+  }
+  
+  .grid-sidebar {
+    grid-column-start: 1;
+    grid-column-end: 2;
+  }
+  .grid-body {
+    grid-column-start: 2;
+    grid-column-end: 3;
+  }
+  * {
+	box-sizing: border-box;
+}

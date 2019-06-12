@@ -35,14 +35,11 @@ if(isset($_POST['submit'])){
   if(in_array($fileActualExt, $allowed)){
     if($fileError ===0){
       if($fileSize < 5000000){
-        $fileNameNew =  $description;
+        $fileNameNew =  $description .'.' .pathinfo($_FILES['fileToUpload']['name'],PATHINFO_EXTENSION);
         $fileDestination = 'uploads/'.$fileNameNew;
-        if(file_exists($fileDestination)){
-          echo "Sellise nimega fail on juba olemas!";
-        } else {
         move_uploaded_file($fileTmpName, $fileDestination);
+
         upload($description, $dateFrom, $dateTo);
-        }
       } else {
         echo "fail on liiga suur";
       }
@@ -69,11 +66,23 @@ if(isset($_POST['submit'])){
   <title>Faili üleslaadimine</title>
 </head>
 <body>
+<div id="mySidenav" class="sidenav">
+    <h1 id="text">Tere, <?php echo $_SESSION["userName"]; ?>!</h1>
+      <a style="font-family: 'digital-clock-font'; cursor:pointer" href="upload.php">Lae üles</a>
+  <br>
+  <br>
+  <a id="text" style="font-family: 'digital-clock-font';cursor:pointer" href="myfiles.php">Sinu lepingud</a>
+  <br>
+  <br>
+  <a href="?logout=1">Logi välja</a>
+  </div>
+  <div id="form" class="form">
   <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" enctype="multipart/form-data">
-      <p>Fail:</p>
+  <div> <img src="signature.png" id="logo" alt="logo"></div>
+      <h1>Lae leping üles</h1>
       <input type="file" name="fileToUpload" id="fileToUpload">
       <p>Faili nimi:</p>
-      <textarea rows="2" cols="35" name="Description" id="Description"></textarea>
+      <input type="text" rows="2" cols="35" name="Description" id="Description">
       <br/>
       <p>Lepingu algus: </p>
       <input type="date" id="algus" name="algus">
@@ -82,7 +91,8 @@ if(isset($_POST['submit'])){
       <input type="date" id="lopp" name="lopp">
       <br>
       <br>
-      <input TYPE="submit" name="submit" value="Upload file">
+      <input TYPE="submit" name="submit" value="Lae üles">
   </form>
+  </div>
 </body>
 </html>

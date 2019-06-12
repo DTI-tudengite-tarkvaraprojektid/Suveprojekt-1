@@ -1,63 +1,46 @@
 <?php
-require ("../../config.php");
+require ("../../../config.php");
 $database = "if18_andri_ka_1";
 session_start();
 function signin($email, $password){
 	$notice = "";
 	$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
-	$stmt = $mysqli->prepare("SELECT id, firstname, email, password FROM kasutajad WHERE email=?");
+	$stmt = $mysqli->prepare("SELECT id, email, password FROM kasutajad WHERE email=?");
 	echo $mysqli->error;
 	$stmt->bind_param("s", $email);
-	$stmt->bind_result($idFromDb, $firstNameFromDb, $emailFromDb, $passwordFromDb);
+	$stmt->bind_result($idFromDb, $emailFromDb, $passwordFromDb);
 	if($stmt->execute()){
-
 		//Kui päring õnnestus
 	  if($stmt->fetch()){
 		  $stmt -> close();
-
 		 //kasutaja on olemas
 		$stmt= $mysqli->prepare ("UPDATE kasutajad SET counter= counter + 1 WHERE id=$idFromDb");
 		$stmt ->execute();
-
-
-
 		  if(password_verify($password,$passwordFromDb)){
-
 			//Kui salasõna klapib
-
 			$notice = "Logisite sisse";
 			//Määran sessiooni muutujad
-
 			$_SESSION["userId"] = $idFromDb;
 			$_SESSION["userEmail"] = $emailFromDb;
 			$_SESSION["userCounter"] = $counterFromDb;
-			$_SESSION["userName"] = $firstNameFromDb;
-
 			//liigume kohe vaid sisselogitudele mõeldud pealehele
 			//$stmt->close();
 			//$mysqli->close();
-
 			header("Location: pealeht.php");
-
 			exit();
-
 		  } else {
 		    $notice = "Vale salasõna";
 		  }
-
-
 	  } else {
 	    $notice = "Sellist kasutajat(" .$email .") ei leitud";
 	  }
 	} else {
 	  $notice = "Sisenemisel tekkis viga" .$stmt->error;
 	}
-
 	$stmt->close();
 	$mysqli->close();
 	return $notice;
   }//sisselogimine lõppeb
-
 function signup($firstName, $lastName, $email, $password){
 	$notice = "";
 	$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
@@ -81,36 +64,71 @@ function signup($firstName, $lastName, $email, $password){
 	    } else {
 	      $notice = "error" .$stmt->error;
 	    }
-
 	}
-	
 	return $notice;
 	$stmt ->close();
 	$mysqli->close();
   }
-
 	function upload($description, $dateFrom, $dateTo){
+		global $tempFileName;
+		$notice ="";
 		$id = $_SESSION["userId"];
 		$notice = "";
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
-		$stmt = $mysqli->prepare("INSERT INTO failid (failinimi, algus, lopp, kasutaja_id) VALUES(?,?,?,?)");
-			echo $mysqli->error;
-			$stmt->bind_param("sssi", $description, $dateFrom, $dateTo, $_SESSION["userId"]);
+		//kontroll, kas fail on juba olems
+		$stmt = $mysqli ->prepare("SELECT failinimi FROM failid WHERE failinimi=?");
+		echo $mysqli->error;
+		$stmt -> bind_param("s", $description);
+		$stmt->execute();
+		if($stmt->fetch()){
+			echo "Sellise nimega pilt on olemas.";
+		}else{
+			$stmt -> close();
+			$stmt = $mysqli->prepare("INSERT INTO failid (failinimi, algus, lopp, kasutaja_id) VALUES(?,?,?,?)");
+			$stmt->bind_param("sssi", $description, $dateFrom, $dateTo, $id);
+			echo "teade: ".$mysqli->error;
 			$stmt->execute();
 			echo $stmt->error;
-			$stmt ->close();
-			$stmt = $mysqli->prepare("SELECT * FROM failid WHERE kasutaja_id = $id");
-			$stmt -> execute();
-
-	return $notice;
-	$stmt ->close();
-	$mysqli->close();
+		}
+		$stmt ->close();
+		$mysqli->close();
+		return $notice;
 	}
+	function showupload($description, $dateFrom, $dateTo){
+		$id = $_SESSION["userId"];
+		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
+		$stmt = $mysqli->prepare("SELECT id, failinimi, algus, lopp FROM failid WHERE kasutaja_id = $id");
+		echo $mysqli->error;
+		$stmt->bind_result($photoId, $description, $dateFrom, $dateTo);
+		$stmt -> execute();
+		while($stmt->fetch()){
+				echo '<img class="photos" src="uploads/' .$description .'" id="' .$photoId .'" alt="' .$description .'" style="width:20%; height:20%; max-width:300px">';
+				echo '<br>';
+				echo " <a href=deleteThisFile.php?id=" .$photoId ."&file=".$description ." class='deleteBtn' >Delete</a> ";
 
-function test_input($data) {
-	//echo "Koristan!\n";
-	$data = trim($data);
-	$data = stripslashes($data);
-	$data = htmlspecialchars($data);
-	return $data;
-}
+				$fileToDelete =$description;
+		}
+		if(empty($html)){
+			$html = "<p>Kahjuks pilte pole!</p> \n";
+		}
+
+	}
+	function deleteImage($fileToDelete){
+		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
+		$stmt = $mysqli->prepare("DELETE FROM failid WHERE failinimi= '$fileToDelete'");
+		echo $mysqli->error;
+		if($stmt -> execute()){
+			echo "fail kustutati.";
+		}else{
+			echo "faili ei kustutatud.";
+		}
+		$stmt ->close();
+		$mysqli->close();
+	}
+	function test_input($data) {
+		//echo "Koristan!\n";
+		$data = trim($data);
+		$data = stripslashes($data);
+		$data = htmlspecialchars($data);
+		return $data;
+	}

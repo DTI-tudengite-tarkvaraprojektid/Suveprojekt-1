@@ -1,15 +1,11 @@
 <?php
   require("functions.php");
   //Kui pole sisse loginud
-
-
   //kui pole sisselogitud
   if(!isset($_SESSION["userId"])){
 	header("Location:avaleht.php");
 	exit();
   }
-
-
   //Väljalogimine
   if(isset($_GET["logout"])){
 	session_destroy();
@@ -18,8 +14,6 @@
   }
   $mybgcolor = "#FFFFFF";
   $mytxtcolor = "#000000";
-
-
 ?>
 
 <!DOCTYPE html>
@@ -34,14 +28,16 @@
 </head>
 <body>
   <div id="mySidenav" class="sidenav">
-    <h1 id="text">Tere, <?php echo $_SESSION["userName"]; ?>!</h1>
-      <a style="font-family: 'digital-clock-font'; cursor:pointer" href="upload.php">Lae üles</a>
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <h1 id="sidenavMenu">Menüü</h1>
+      <a style="font-family: 'digital-clock-font'; cursor:pointer" href="upload.php">Upload</a>
   <br>
   <br>
-  <a id="text" style="font-family: 'digital-clock-font';cursor:pointer" href="myfiles.php">Sinu lepingud</a>
+  <a id="text" style="font-family: 'digital-clock-font';cursor:pointer" href="myfiles.php">View files</a>
   <br>
   <br>
-  <a href="?logout=1">Logi välja</a>
+  <a href="?logout=1">Logout</a>
   </div>
+  <span style="font-size:20px; color:black;cursor:pointer" onclick="openNav()">&#9776; Lisavalikud</span>
 </body>
 </html>

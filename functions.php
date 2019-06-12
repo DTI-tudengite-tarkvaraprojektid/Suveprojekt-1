@@ -105,13 +105,11 @@ function signup($firstName, $lastName, $email, $password){
 				echo '<img class="photos" src="uploads/' .$description .'" id="' .$photoId .'" alt="' .$description .'" style="width:20%; height:20%; max-width:300px">';
 				echo '<br>';
 				echo " <a href=deleteThisFile.php?id=" .$photoId ."&file=".$description ." class='deleteBtn' >Delete</a> ";
-
 				$fileToDelete =$description;
 		}
 		if(empty($html)){
 			$html = "<p>Kahjuks pilte pole!</p> \n";
 		}
-
 	}
 	function deleteImage($fileToDelete){
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);

@@ -1,5 +1,5 @@
 <?php
-require ("../../../config.php");
+require ("../../config.php");
 $database = "if18_andri_ka_1";
 session_start();
 function signin($email, $password){
@@ -86,7 +86,7 @@ function signup($firstName, $lastName, $email, $password){
 		}else{
 			$stmt -> close();
 			$stmt = $mysqli->prepare("INSERT INTO failid (failinimi, algus, lopp, teavitus, kasutaja_id) VALUES(?,?,?,?,?)");
-			$stmt->bind_param("sssi", $description, $dateFrom, $dateTo, $dateNotice, $id);
+			$stmt->bind_param("ssssi", $description, $dateFrom, $dateTo, $dateNotice, $id);
 			echo "teade: ".$mysqli->error;
 			$stmt->execute();
 			echo $stmt->error;

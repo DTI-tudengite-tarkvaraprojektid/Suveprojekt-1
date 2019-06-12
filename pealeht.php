@@ -1,11 +1,15 @@
 <?php
   require("functions.php");
   //Kui pole sisse loginud
+
+
   //kui pole sisselogitud
   if(!isset($_SESSION["userId"])){
 	header("Location:avaleht.php");
 	exit();
   }
+
+
   //Väljalogimine
   if(isset($_GET["logout"])){
 	session_destroy();
@@ -14,6 +18,8 @@
   }
   $mybgcolor = "#FFFFFF";
   $mytxtcolor = "#000000";
+
+
 ?>
 
 <!DOCTYPE html>

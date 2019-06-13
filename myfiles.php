@@ -10,14 +10,12 @@
 	  header("Location: avaleht.php");
 	  exit();
   }
-
   //väljalogimine
   if(isset($_GET["logout"])){
 	session_destroy();
 	header("Location: avaleht.php");
 	exit();
   }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

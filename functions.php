@@ -125,9 +125,9 @@ function signup($firstName, $lastName, $email, $password){
 		echo "\n";
 		echo '<div class="photoColumn" id="photoColumn"> ';
 		echo "\n";
-		echo "<style> table tr,th,td { border: 1px solid black; width:10%;} \n";
+		echo "<style> table tr,th,td { border: 1px solid black; color:white;  width:10%;font-family:Arial; background: linear-gradient(top, #3c3c3c 0%, #222222 100%); background:-webkit-linear-gradient(top, #3c3c3c 0%, #222222 100%);} \n";
 		echo "tr{ margin-left: 20px;} \n";
-		echo "td{ position: relative;} </style>";
+		echo "table{text-align:center; font-size:18px; border-collapse:collapse;} </style>";
 		echo "<table>";
 		echo "<tr>";
 		echo "<th> Fail </th>";

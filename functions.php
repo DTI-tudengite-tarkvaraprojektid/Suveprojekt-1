@@ -125,9 +125,10 @@ function signup($firstName, $lastName, $email, $password){
 		echo "\n";
 		echo '<div class="photoColumn" id="photoColumn"> ';
 		echo "\n";
-		echo "<style> table tr,th,td { border: 1px solid black; color:white;  width:10%;font-family:Arial; background: linear-gradient(top, #3c3c3c 0%, #222222 100%); background:-webkit-linear-gradient(top, #3c3c3c 0%, #222222 100%);} \n";
+        echo "<style> table tr,th,td { color: black;  width:10%;font-family:Arial; background-color: #ffffff; border-bottom: 2px solid black;} \n";
 		echo "tr{ margin-left: 20px;} \n";
-		echo "table{text-align:center; font-size:18px; border-collapse:collapse;} </style>";
+        echo "table{width:150%;text-align:center; font-size:18px; border-collapse:collapse; border: 3px solid black;} \n";
+        echo "th{background-color:  #FFA500 ; color: white;  border-bottom: 2px solid black;} </style>";
 		echo "<table>";
 		echo "<tr>";
 		echo "<th> Fail </th>";
@@ -145,7 +146,7 @@ function signup($firstName, $lastName, $email, $password){
 				if($fileExt == "pdf"){
 					$source = '<a target="_blank" href="uploads/' .$description .'" type="application/pdf" > '.pathinfo($description)['filename'] .' </a>';
 				} else {
-					$source = '<img data-fn=' .$description .' class="photo" src="uploads/' .$description .'" data-id="' .$photoId .'" alt="' .pathinfo($description)['filename'] .'" style="height: 5vh">';
+					$source = '<img data-fn=' .$description .' class="photo" src="uploads/' .$description .'" data-id="' .$photoId .'" alt="' .pathinfo($description)['filename'] .'" style="height: 5vh; width: 10vh;">';
 				}
 				$delete = "<a href=deleteThisFile.php?id=" .$photoId ."&file=".$description ." class='deleteBtn' >Kustuta</a>";
 				echo "<tr>";

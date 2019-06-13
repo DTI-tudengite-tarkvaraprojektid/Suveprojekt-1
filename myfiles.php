@@ -48,20 +48,20 @@
       <div id="files" class="files">
         <div action="myfiles.php" id="searchBox">
           <form method="post" name="searchBox">
-            <input name="searchBox" type="text" placeholder="">
-            <input type="submit" value="Otsi"/>
+            <input id="searchtext" name="searchBox" type="text" placeholder="">
+            <input id= "search" type="submit" value="Otsi"/>
           </form>
           <form action="myfiles.php" method="post">
-            <select name="subject">
+            <select id="select" name="subject">
               <option value="failinimi" selected="selected">Nimi</option>
               <option value="Timestamp">Üleslaadimis kuupäev</option>
               <option value="lopp">Lõpu kuupäev</option>
             </select>
-            <select name="sort">
+            <select id="select" name="sort">
               <option value="ASC">Kasvav </option>
               <option value="DESC" selected="selected">Kahanev </option>
             </select>
-            <input name="sortButton" type="submit" value="Sorteeri"/>
+            <input id="sortbutton" name="sortButton" type="submit" value="Sorteeri"/>
           </form>
         </div>
       <?php

@@ -7,7 +7,8 @@
   left: 0;
   background-color: black; /* Black*/
   padding-top: 20px; /* Place content 60px from the top */
-  position: absolute;
+  position: fixed;
+  overflow-x: hidden;
 }
 .sidenav h1 {
   padding: 8px 8px 40px 32px;
@@ -101,6 +102,7 @@
 box-sizing: border-box;
 }
 #menutext{
+  margin-bottom: 100px;
   margin-top: 250px;
   display: flex;
   flex-direction: column;

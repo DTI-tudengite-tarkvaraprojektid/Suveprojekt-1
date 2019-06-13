@@ -44,7 +44,7 @@
 
               <input name="password" type="password" placeholder="Salasõna"><br>
 
-              <input name="login" type="submit" value="Logi sisse" href="main.php">
+              <input name="login" type="submit" value="Logi sisse" href="upload.php">
               <br><br>
               <a style="text-align:left;" href="newuser.php">Loo kasutaja</a>
               <br>

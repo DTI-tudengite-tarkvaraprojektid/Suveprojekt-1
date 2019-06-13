@@ -59,16 +59,21 @@ if(isset($_POST['submit'])){
   <title>Faili üleslaadimine</title>
 </head>
 <body>
-<div id="mySidenav" class="sidenav">
-    <h1 id="text">Tere, <?php echo $_SESSION["userName"]; ?>!</h1>
-      <a style="font-family: 'digital-clock-font'; cursor:pointer" href="upload.php">Lae üles</a>
-  <br>
+<div class="grid-container">
+  <div class="grid-sidebar">  
+   <div id="mySidenav" class="sidenav">
+   <div id="greeting"> <h1 id="text">Tere, <?php echo $_SESSION["userName"]; ?>!</h1> </div>  
+   <div id="menutext">  <a style="font-family: 'digital-clock-font'; cursor:pointer" href="upload.php">Lae üles</a> 
+   <br>
   <br>
   <a id="text" style="font-family: 'digital-clock-font';cursor:pointer" href="myfiles.php">Sinu lepingud</a>
   <br>
   <br>
   <a href="?logout=1">Logi välja</a>
   </div>
+  </div>
+  </div>
+  <div class="grid-body"> 
   <div id="form" class="form">
   <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" enctype="multipart/form-data">
   <div> <img src="signature.png" id="logo" alt="logo"></div>
@@ -88,6 +93,8 @@ if(isset($_POST['submit'])){
       <br>
       <input TYPE="submit" name="submit" value="Lae üles">
   </form>
+  </div>
+  </div>
   </div>
 </body>
 </html>

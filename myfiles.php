@@ -21,7 +21,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" type="text/css" href="myfiles.css">
+  <link rel="stylesheet" type="text/css" href="pealeht.css">
   <link rel="stylesheet" type="text/css" href="modal.css">
   <script src="modal.js"></script>
   <script src="pealeht.js"></script> 
@@ -32,8 +32,8 @@
 <div class="grid-container">
   <div class="grid-sidebar"> 
   <div id="mySidenav" class="sidenav">
-    <h1 id="text">Tere, <?php echo $_SESSION["userName"]; ?>!</h1>
-      <a style="font-family: 'digital-clock-font'; cursor:pointer" href="upload.php">Lae üles</a>
+    <div id="greeting"> <h1 id="text">Tere, <?php echo $_SESSION["userName"]; ?>!</h1> </div>  
+    <div id="menutext">  <a style="font-family: 'digital-clock-font'; cursor:pointer" href="upload.php">Lae üles</a> 
   <br>
   <br>
   <a id="text" style="font-family: 'digital-clock-font';cursor:pointer" href="myfiles.php">Sinu lepingud</a>
@@ -42,7 +42,9 @@
   <a href="?logout=1">Logi välja</a>
   </div>
   </div>  
+  </div> 
   <div class="grid-body"> 
+  <div id="files" class="files">
   <?php 
 $tulemus = showupload($description, $dateFrom, $dateTo);
   echo $tulemus; 
@@ -57,6 +59,7 @@ $tulemus = showupload($description, $dateFrom, $dateTo);
     <!-- Modal Caption (Image Text) -->
     <div id="caption"></div>
 </div>  
+</div> 
 </div>
 </div>
 

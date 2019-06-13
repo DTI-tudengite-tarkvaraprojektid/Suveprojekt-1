@@ -27,7 +27,7 @@ function signin($email, $password){
 			//liigume kohe vaid sisselogitudele mõeldud pealehele
 			//$stmt->close();
 			//$mysqli->close();
-			header("Location: pealeht.php");
+			header("Location: upload.php");
 			exit();
 		  } else {
 		    $notice = "Vale salasõna";

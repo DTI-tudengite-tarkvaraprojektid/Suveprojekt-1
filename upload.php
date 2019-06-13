@@ -60,10 +60,10 @@ if(isset($_POST['submit'])){
 </head>
 <body>
 <div class="grid-container">
-  <div class="grid-sidebar">  
+  <div class="grid-sidebar">
    <div id="mySidenav" class="sidenav">
-   <div id="greeting"> <h1 id="text">Tere, <?php echo $_SESSION["userName"]; ?>!</h1> </div>  
-   <div id="menutext">  <a style="font-family: 'digital-clock-font'; cursor:pointer" href="upload.php">Lae üles</a> 
+   <div id="greeting"> <h1 id="text">Tere, <?php echo $_SESSION["userName"]; ?>!</h1> </div>
+   <div id="menutext">  <a style="font-family: 'digital-clock-font'; cursor:pointer" href="upload.php">Lae üles</a>
    <br>
   <br>
   <a id="text" style="font-family: 'digital-clock-font';cursor:pointer" href="myfiles.php">Sinu lepingud</a>
@@ -73,7 +73,7 @@ if(isset($_POST['submit'])){
   </div>
   </div>
   </div>
-  <div class="grid-body"> 
+  <div class="grid-body">
   <div id="form" class="form">
   <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" enctype="multipart/form-data">
   <div> <img src="signature.png" id="logo" alt="logo"></div>

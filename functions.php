@@ -1,5 +1,5 @@
 <?php
-require ("../../config.php");
+require ("../../../config.php");
 $database = "if18_andri_ka_1";
 session_start();
 function signin($email, $password){
@@ -95,24 +95,70 @@ function signup($firstName, $lastName, $email, $password){
 		$mysqli->close();
 		return $notice;
 	}
-	function showupload($description, $dateFrom, $dateTo){
+	function showupload($description, $dateFrom, $dateTo, $dateNotice){
 		$id = $_SESSION["userId"];
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
-		$stmt = $mysqli->prepare("SELECT id, failinimi, algus, lopp FROM failid WHERE kasutaja_id = $id");
+		if(isset($_POST["sort"])){
+			$sort = $_POST["sort"];
+			$criteria = $_POST["subject"];
+			if(isset($_POST["searchBox"])){
+				$search = $_POST["search"];
+				$stmt = $mysqli->prepare("SELECT id, failinimi, algus, lopp, teavitus FROM failid WHERE (kasutaja_id = $id AND failinimi LIKE '%$search%') ORDER BY $criteria $sort ");
+			} else {
+				$stmt = $mysqli->prepare("SELECT id, failinimi, algus, lopp, teavitus FROM failid WHERE kasutaja_id = $id ORDER BY $criteria $sort ");
+			}
+		} else {
+			$sort = "DESC";
+			$criteria = "lopp";
+			if(isset($_POST["searchBox"])){
+				$search = $_POST["searchBox"];
+				$stmt = $mysqli->prepare("SELECT id, failinimi, algus, lopp, teavitus FROM failid WHERE (kasutaja_id = $id AND failinimi LIKE '%$search%') ORDER BY $criteria $sort ");
+			} else {
+				$stmt = $mysqli->prepare("SELECT id, failinimi, algus, lopp, teavitus FROM failid WHERE kasutaja_id = $id ORDER BY $criteria $sort ");
+			}
+		}
+		$source = "uploads/".$description;
 		echo $mysqli->error;
-		$stmt->bind_result($photoId, $description, $dateFrom, $dateTo);
+		$stmt->bind_result($photoId, $description, $dateFrom, $dateTo, $dateNotice);
 		$stmt -> execute();
 		echo '<div class="photoRow" id="photoRow"> ';
 		echo "\n";
+		echo '<div class="photoColumn" id="photoColumn"> ';
+		echo "\n";
+		echo "<style> table tr,th,td { border: 1px solid black; width:10%;} \n";
+		echo "tr{ margin-left: 20px;} \n";
+		echo "td{ position: relative;} </style>";
+		echo "<table>";
+		echo "<tr>";
+		echo "<th> Fail </th>";
+		echo "<th> Kirjeldus </th>";
+		echo "<th> Algus </th>";
+		echo "<th> Lõpp</th>";
+		echo "<th> Muuda </th>";
+		echo "<th> Kustuta </th>";
+		echo "</tr>";
 		while($stmt->fetch()){
-				echo '<div class="photoColumn" id="photoColumn"> ';
-				echo "\n";
-				echo '<img data-fn=' .$description .' class="photo" src="uploads/' .$description .'" data-id="' .$photoId .'" alt="' .$description .'" style="width:20%; height:20%; max-width:300px">';
-				echo "\n";
-				echo " <a href=deleteThisFile.php?id=" .$photoId ."&file=".$description ." class='deleteBtn' >Delete</a> ";
-				echo "\n";
+				$newFrom = date("d/m/Y", strtotime($dateFrom));
+				$newTo = date("d/m/Y", strtotime($dateTo));
+				$newNotice = date("d/m/Y", strtotime($dateNotice));
+				$fileExt = pathinfo($description)['extension'];
+				if($fileExt == "pdf"){
+					$source = '<a target="_blank" href="uploads/' .$description .'" type="application/pdf" > '.pathinfo($description)['filename'] .' </a>';
+				} else {
+					$source = '<img data-fn=' .$description .' class="photo" src="uploads/' .$description .'" data-id="' .$photoId .'" alt="' .pathinfo($description)['filename'] .'" style="height: 5vh">';
+				}
+				$delete = "<a href=deleteThisFile.php?id=" .$photoId ."&file=".$description ." class='deleteBtn' >Kustuta</a>";
+				echo "<tr>";
+				echo "<td> $source </td>";
+				echo "<td> ".pathinfo($description)['filename'] ."</td>";
+				echo "<td> $newFrom </td>";
+				echo "<td> $newTo </td>";
+				echo "<td> $newNotice </td>";
+				echo "<td> $delete </td>";
+				echo"</tr>";
 				echo '</div>';
 		}
+		echo "</table>";
 		echo "\n";
 		echo '</div>';
 		echo "\n";

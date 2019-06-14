@@ -135,12 +135,12 @@ function signup($firstName, $lastName, $email, $password){
 		echo "<th> Kirjeldus </th>";
 		echo "<th> Algus </th>";
 		echo "<th> Lõpp</th>";
-		echo "<th> Muuda </th>";
+		echo "<th> Teavitus </th>";
 		echo "<th> Kustuta </th>";
 		echo "</tr>";
 		while($stmt->fetch()){
 				$newFrom = date("d/m/Y", strtotime($dateFrom));
-				$newTo = date("d/m/Y", strtotime($dateTo));
+				$newTo2 = date("d/m/Y", strtotime($dateTo));
 				$newNotice = date("d/m/Y", strtotime($dateNotice));
 				$fileExt = pathinfo($description)['extension'];
 				if($fileExt == "pdf"){
@@ -149,14 +149,22 @@ function signup($firstName, $lastName, $email, $password){
 					$source = '<img data-fn=' .$description .' class="photo" src="uploads/' .$description .'" data-id="' .$photoId .'" alt="' .pathinfo($description)['filename'] .'" style="height: 5vh; width: 10vh;">';
 				}
 				$delete = "<a href=deleteThisFile.php?id=" .$photoId ."&file=".$description ." class='deleteBtn' >Kustuta</a>";
+				$update = "<a href=update.php?id=" .$photoId ."&file=" .$description ." class='updateBtn' >Redigeeri</a>";
+				$dateNow = date("Y-m-d");
+				$dateNow = date_create($dateNow);
+				$newTo = date_create($dateNotice);
+				$dateDiff = date_diff($dateNow, $newTo);
+				$hiddenData = "<input type='hidden' name='hiddenId' id='hiddenId' value =" .$photoId ."><input type='hidden' name='hiddenExt' id='hiddenExt' value=" .$fileExt ."><input type='hidden' name='hiddenName' value=" .$description .">";
+				echo "<form action='myfiles.php' method='post' name='update'>";
 				echo "<tr>";
-				echo "<td> $source </td>";
-				echo "<td> ".pathinfo($description)['filename'] ."</td>";
-				echo "<td> $newFrom </td>";
-				echo "<td> $newTo </td>";
-				echo "<td> $newNotice </td>";
-				echo "<td> $delete </td>";
+				echo "<td> " .$source .$hiddenData ."</td>";
+				echo "<td> <input name='description' type='data' value='".pathinfo($description)['filename'] ."' class='dates'></td>";
+				echo "<td> <input name='dateFrom' type='data' value=" .$newFrom ." class='dates'></td>";
+				echo "<td> <input name='dateTo' type='data' value=" .$newTo2 ." class='dates'></td>";
+				echo "<td> " .$dateDiff->format('%a päeva') ." </td>";
+				echo "<td>  <input name='update' type='submit' value='Redigeeri'/>$delete</td>";
 				echo"</tr>";
+				echo "</form>";
 				echo '</div>';
 		}
 		echo "</table>";
@@ -178,6 +186,26 @@ function signup($firstName, $lastName, $email, $password){
 		}
 		$stmt ->close();
 		$mysqli->close();
+	}
+	if(isset($_POST['update'])){
+		$updateFrom = $_POST['dateFrom'];
+		$updateTo = $_POST['dateTo'];
+		$updateFrom = date("Y-m-d");
+		$updateTo = date("Y-m-d");
+		$hiddenExt = $_POST['hiddenExt'];
+		$toUpdate = $_POST['hiddenId'];
+		$updateName = $_POST['description']  .".".$hiddenExt;
+		$hiddenName = $_POST['hiddenName'];
+		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
+		//$stmt = $mysqli->prepare("UPDATE failid SET failinimi = $updateDesc, algus = $updateFrom, lopp = $updateTo WHERE id = $toUpdate ");
+		$stmt = $mysqli->prepare("UPDATE failid SET failinimi = '$updateName' WHERE id = $toUpdate");
+		echo $mysqli->error;
+		$stmt->execute();
+		$stmt->close();
+		$mysqli->close();
+		$oldSrc = "uploads/" .$hiddenName;
+		$newSrc = "uploads/" .$updateName;
+		rename($oldSrc, $newSrc);
 	}
 	function test_input($data) {
 		//echo "Koristan!\n";

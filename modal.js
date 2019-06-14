@@ -7,18 +7,13 @@ let photoId;
 
 
 window.onload = function(){
-// Get the modal
  modal = document.getElementById("myModal");
-
-// Get the image and insert it inside the modal - use its "alt" text as a caption
-
-modalImg = document.getElementById("modalImg");
-let allPics = document.getElementById("photoRow").getElementsByTagName("img");
-for(let i = 0; i < allPics.length; i ++){
+ modalImg = document.getElementById("modalImg");
+ let allPics = document.getElementById("photoRow").getElementsByTagName("img");
+ for(let i = 0; i < allPics.length; i ++){
 		allPics[i].addEventListener("click", openModal);
-	}
+  }
 	document.getElementById("close").addEventListener("click", closeModal);
-
 };
 
 function openModal(e){
@@ -34,12 +29,8 @@ function closewithKey(e){
 	console.log(e.keyCode);
 	if(e.keyCode == 27){
 		closeModal();
-		//seal ka remove event listener
 	}
 }
-
-
-// When the user clicks on <span> (x), close the modal
 function closeModal(){
 	document.removeEventListener("keypress", closewithKey);
 	modal.style.display = "none";
@@ -55,4 +46,4 @@ document.onkeydown = function(evt) {
 	if(isEscape) {
 		closeModal();
 	}
-}
+};

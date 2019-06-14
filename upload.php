@@ -17,7 +17,6 @@ require ("functions.php");
     $file = $_FILES['fileToUpload'];
     $dateFrom = date('Y-m-d', strtotime($_POST['algus']));
     $dateTo = date('Y-m-d', strtotime($_POST['lopp']));
-    $dateNotice = date('Y-m-d', strtotime($_POST['alert']));
     $description = $_REQUEST['Description'];
     $filename = $_FILES['fileToUpload']['name'];
     $fileTmpName = $_FILES['fileToUpload']['tmp_name'];
@@ -34,7 +33,7 @@ require ("functions.php");
           $fileNameNew =  $description;
           $fileDestination = 'uploads/'.$fileNameNew;
           move_uploaded_file($fileTmpName, $fileDestination);
-          upload($description, $dateFrom, $dateTo, $dateNotice);
+          upload($description, $dateFrom, $dateTo);
         } else {
           echo "fail on liiga suur";
         }
@@ -88,10 +87,7 @@ require ("functions.php");
         <p>Lepingu lõpp: </p>
         <input type="date" id="lopp" name="lopp">
         <br>
-        <p>Teavita lepingu lõpukuupäevast: </p>
-        <input type="date" id="alert" name="alert">
-        <br>
-        <input TYPE="submit" name="submit" value="Lae üles">
+        <input type="submit" name="submit" value="Lae üles">
         </form>
       </div>
     </div>

@@ -1,3 +1,10 @@
+.deleteBtn {
+  content: 'x'; // here is your X(cross) sign.
+  color: #fff;
+  font-weight: 300;
+  font-family: Arial, sans-serif;
+}
+
 .sidenav {
     height: 100%; /* 100% Full-height */
     width: 250px;

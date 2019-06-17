@@ -147,23 +147,21 @@ function signup($firstName, $lastName, $email, $password){
 				} else {
 					$source = '<img data-fn=' .$description .' class="photo" src="uploads/' .$description .'" data-id="' .$photoId .'" alt="' .pathinfo($description)['filename'] .'" style="height: 5vh; width: 10vh;">';
 				}
-				$delete = "<a href=deleteThisFile.php?id=" .$photoId ."&file=".$description ." class='deleteBtn' >Kustuta</a>";
-				$update = "<a href=update.php?id=" .$photoId ."&file=" .$description ." class='updateBtn' >Redigeeri</a>";
+				$delete = "<a href=deleteThisFile.php?id=" .$photoId ."&file=".$description ." class='deleteBtn' ><img border='0' alt='Kustuta' src='delete_img.png' width='25px' height='25px'></a>";
 				$dateNow = date("Y-m-d");
 				$dateNow = date_create($dateNow);
-				$dateStart = date_create($dateFrom);
 				$dateEnd = date_create($dateTo);
-				$dateDiff = date_diff($dateStart, $dateEnd);
+				$dateDiff = date_diff($dateNow, $dateEnd);
 				$sentence1 = "<td > <p id='daysRemaining' style='color: red;' >" .$dateDiff->format('%a päeva') ."</p></td>";
-		    $sentence2 = "<td > <p id='daysRemaining' style='color: yellow;' >" .$dateDiff->format('%a päeva') ."</p></td>";
+		   		$sentence2 = "<td > <p id='daysRemaining' style='color: yellow;' >" .$dateDiff->format('%a päeva') ."</p></td>";
 				$sentence3 = "<td > <p id='daysRemaining' >" .$dateDiff->format('%a päeva') ."</p></td>";
 				$hiddenData = "<input type='hidden' name='hiddenId' id='hiddenId' value =" .$photoId ."><input type='hidden' name='hiddenExt' id='hiddenExt' value=" .$fileExt ."><input type='hidden' name='hiddenName' value=" .$description .">";
 				echo "<form action='myfiles.php' method='post' name='update'>";
 				echo "<tr>";
 				echo "<td> " .$source .$hiddenData ."</td>";
 				echo "<td> <input name='description' type='data' value='".pathinfo($description)['filename'] ."' class='dates'></td>";
-				echo "<td> <input name='dateFrom' type='data' value=" .$newFrom ." class='dates'></td>";
-				echo "<td> <input name='dateTo' type='data' value=" .$newTo2 ." class='dates'></td>";
+				echo "<td> <input name='dateFrom' type='date' value=" .$dateFrom ." class='dates'></td>";
+				echo "<td> <input name='dateTo' type='date' value=" .$dateTo ." class='dates'></td>";
 				if($dateDiff->format('%a') <= 7){
 					echo $sentence1;
 				} elseif($dateDiff->format('%a') <= 14) {
@@ -171,7 +169,7 @@ function signup($firstName, $lastName, $email, $password){
 				} else {
 					echo $sentence3;
 				}
-				echo "<td>  <input name='update' type='submit' value='Redigeeri'/>$delete</td>";
+				echo "<td>  <input name='update' type='hidden' value='Redigeeri'/>$delete</td>";
 				echo"</tr>";
 				echo "</form>";
 				echo '</div>';
@@ -184,6 +182,7 @@ function signup($firstName, $lastName, $email, $password){
 			$html = "<p>Kahjuks pilte pole!</p> \n";
 		}
 	}
+
 	function deleteImage($fileToDelete){
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
 		$stmt = $mysqli->prepare("DELETE FROM failid WHERE failinimi= '$fileToDelete'");
@@ -199,15 +198,12 @@ function signup($firstName, $lastName, $email, $password){
 	if(isset($_POST['update'])){
 		$updateFrom = $_POST['dateFrom'];
 		$updateTo = $_POST['dateTo'];
-		$updateFrom = date("Y-m-d");
-		$updateTo = date("Y-m-d");
 		$hiddenExt = $_POST['hiddenExt'];
 		$toUpdate = $_POST['hiddenId'];
 		$updateName = $_POST['description']  .".".$hiddenExt;
 		$hiddenName = $_POST['hiddenName'];
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
-		//$stmt = $mysqli->prepare("UPDATE failid SET failinimi = $updateDesc, algus = $updateFrom, lopp = $updateTo WHERE id = $toUpdate ");
-		$stmt = $mysqli->prepare("UPDATE failid SET failinimi = '$updateName' WHERE id = $toUpdate");
+		$stmt = $mysqli->prepare("UPDATE failid SET failinimi = '$updateName', algus = '$updateFrom', lopp = '$updateTo' WHERE id = $toUpdate ");
 		echo $mysqli->error;
 		$stmt->execute();
 		$stmt->close();

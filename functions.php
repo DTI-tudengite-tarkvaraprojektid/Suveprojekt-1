@@ -10,25 +10,18 @@ function signin($email, $password){
 	$stmt->bind_param("s", $email);
 	$stmt->bind_result($idFromDb, $firstNameFromDb, $emailFromDb, $passwordFromDb);
 	if($stmt->execute()){
-		//Kui päring õnnestus
 	  if($stmt->fetch()){
 		  $stmt -> close();
-		 //kasutaja on olemas
-		$stmt= $mysqli->prepare ("UPDATE kasutajad SET counter= counter + 1 WHERE id=$idFromDb");
-		$stmt ->execute();
+			$stmt= $mysqli->prepare ("UPDATE kasutajad SET counter= counter + 1 WHERE id=$idFromDb");
+			$stmt ->execute();
 		  if(password_verify($password,$passwordFromDb)){
-			//Kui salasõna klapib
-			$notice = "Logisite sisse";
-			//Määran sessiooni muutujad
-			$_SESSION["userId"] = $idFromDb;
-			$_SESSION["userName"] = $firstNameFromDb;
-			$_SESSION["userEmail"] = $emailFromDb;
-			$_SESSION["userCounter"] = $counterFromDb;
-			//liigume kohe vaid sisselogitudele mõeldud pealehele
-			//$stmt->close();
-			//$mysqli->close();
-			header("Location: upload.php");
-			exit();
+				$notice = "Logisite sisse";
+				$_SESSION["userId"] = $idFromDb;
+				$_SESSION["userName"] = $firstNameFromDb;
+				$_SESSION["userEmail"] = $emailFromDb;
+				$_SESSION["userCounter"] = $counterFromDb;
+				header("Location: upload.php");
+				exit();
 		  } else {
 		    $notice = "Vale salasõna";
 		  }
@@ -76,20 +69,24 @@ function signup($firstName, $lastName, $email, $password){
 		$id = $_SESSION["userId"];
 		$notice = "";
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
-		//kontroll, kas fail on juba olems
 		$stmt = $mysqli ->prepare("SELECT failinimi FROM failid WHERE failinimi=?");
 		echo $mysqli->error;
 		$stmt -> bind_param("s", $description);
 		$stmt->execute();
 		if($stmt->fetch()){
-			echo "Sellise nimega pilt on olemas.";
+			echo "<script language='JavaScript' type='text/javascript'> alert('Sellise nimega fail on juba olemas');</script>";
 		}else{
 			$stmt -> close();
 			$stmt = $mysqli->prepare("INSERT INTO failid (failinimi, algus, lopp, kasutaja_id) VALUES(?,?,?,?)");
 			$stmt->bind_param("sssi", $description, $dateFrom, $dateTo, $id);
 			echo "teade: ".$mysqli->error;
+			if($dateTo < $dateFrom){
+				echo "<script language='JavaScript' type='text/javascript'> alert('Lõpukuupäev ei saa ole väiksem!');</script>";
+			} else {
 			$stmt->execute();
 			echo $stmt->error;
+			echo "<script language='JavaScript' type='text/javascript'> alert('Fail üleslaetud!');</script>";
+				}
 		}
 		$stmt ->close();
 		$mysqli->close();
@@ -142,12 +139,13 @@ function signup($firstName, $lastName, $email, $password){
 				$newFrom = date("d/m/Y", strtotime($dateFrom));
 				$newTo2 = date("d/m/Y", strtotime($dateTo));
 				$fileExt = pathinfo($description)['extension'];
+				$confirm = "Kas te olete kindel?";
 				if($fileExt == "pdf"){
 					$source = '<a target="_blank" href="uploads/' .$description .'" type="application/pdf" > '.pathinfo($description)['filename'] .' </a>';
 				} else {
 					$source = '<img data-fn=' .$description .' class="photo" src="uploads/' .$description .'" data-id="' .$photoId .'" alt="' .pathinfo($description)['filename'] .'" style="height: 5vh; width: 10vh;">';
 				}
-				$delete = "<a href=deleteThisFile.php?id=" .$photoId ."&file=".$description ." class='deleteBtn' ><img border='0' alt='Kustuta' src='delete_img.png' width='25px' height='25px'></a>";
+				$delete = "<a onclick='return confirmDelete()' href=deleteThisFile.php?id=" .$photoId ."&file=".$description ." class='deleteBtn' ><img border='0' alt='Kustuta' src='delete_img.png' width='25px' height='25px'></a>";
 				$dateNow = date("Y-m-d");
 				$dateNow = date_create($dateNow);
 				$dateEnd = date_create($dateTo);
@@ -182,7 +180,6 @@ function signup($firstName, $lastName, $email, $password){
 			$html = "<p>Kahjuks pilte pole!</p> \n";
 		}
 	}
-
 	function deleteImage($fileToDelete){
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
 		$stmt = $mysqli->prepare("DELETE FROM failid WHERE failinimi= '$fileToDelete'");
@@ -196,6 +193,11 @@ function signup($firstName, $lastName, $email, $password){
 		$mysqli->close();
 	}
 	if(isset($_POST['update'])){
+		update();
+	}
+
+	function update(){
+
 		$updateFrom = $_POST['dateFrom'];
 		$updateTo = $_POST['dateTo'];
 		$hiddenExt = $_POST['hiddenExt'];
@@ -203,14 +205,36 @@ function signup($firstName, $lastName, $email, $password){
 		$updateName = $_POST['description']  .".".$hiddenExt;
 		$hiddenName = $_POST['hiddenName'];
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
-		$stmt = $mysqli->prepare("UPDATE failid SET failinimi = '$updateName', algus = '$updateFrom', lopp = '$updateTo' WHERE id = $toUpdate ");
-		echo $mysqli->error;
-		$stmt->execute();
-		$stmt->close();
-		$mysqli->close();
-		$oldSrc = "uploads/" .$hiddenName;
-		$newSrc = "uploads/" .$updateName;
-		rename($oldSrc, $newSrc);
+		if($_POST['description']==""){
+			echo "<script language='JavaScript' type='text/javascript' > alert('Faili nimi ei saa tühi olla.')</script>";
+		}else{
+			$stmt = $mysqli ->prepare("SELECT failinimi FROM failid WHERE failinimi=?");
+			echo $mysqli->error;
+			$stmt -> bind_param("s", $updateName);
+			$stmt->execute();
+			if($stmt->fetch()){
+				if($updateName == $_POST['description']  .".".$hiddenExt){
+					$stmt -> close();
+					$stmt = $mysqli->prepare("UPDATE failid SET algus = '$updateFrom', lopp = '$updateTo' WHERE id = $toUpdate ");
+					echo $mysqli->error;
+					$stmt->execute();
+					$stmt->close();
+					$mysqli->close();
+				} else {
+					echo "<script language='JavaScript' type='text/javascript' > alert('Sellise nimega fail on juba olemas.')</script>";
+				}
+			} else {
+				$stmt -> close();
+				$stmt = $mysqli->prepare("UPDATE failid SET failinimi = '$updateName', algus = '$updateFrom', lopp = '$updateTo' WHERE id = $toUpdate ");
+				echo $mysqli->error;
+				$stmt->execute();
+				$stmt->close();
+				$mysqli->close();
+				$oldSrc = "uploads/" .$hiddenName;
+				$newSrc = "uploads/" .$updateName;
+				rename($oldSrc, $newSrc);
+			}
+		}
 	}
 	function test_input($data) {
 		//echo "Koristan!\n";

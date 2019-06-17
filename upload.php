@@ -15,6 +15,7 @@ require ("functions.php");
   $mytxtcolor = "#000000";
   if(isset($_POST['submit'])){
     $file = $_FILES['fileToUpload'];
+    $dateError = "";
     $dateFrom = date('Y-m-d', strtotime($_POST['algus']));
     $dateTo = date('Y-m-d', strtotime($_POST['lopp']));
     $description = $_REQUEST['Description'];
@@ -27,22 +28,34 @@ require ("functions.php");
     $fileActualExt = strtolower(end($fileExt));
     $description .="." .$fileActualExt;
     $allowed = array('jpg', 'jpeg','png','pdf');
-    if(in_array($fileActualExt, $allowed)){
-      if($fileError ===0){
-        if($fileSize < 5000000){
-          $fileNameNew =  $description;
-          $fileDestination = 'uploads/'.$fileNameNew;
-          move_uploaded_file($fileTmpName, $fileDestination);
-          upload($description, $dateFrom, $dateTo);
+    if(!empty($fileActualExt)){
+      if(in_array($fileActualExt, $allowed)){
+        if($fileError ===0){
+          if($fileSize < 5000000){
+            if(!empty($_POST["algus"]) && !empty($_POST["lopp"])){
+              if(!empty($_POST["Description"])){
+                $fileNameNew =  $description;
+                $fileDestination = 'uploads/'.$fileNameNew;
+                move_uploaded_file($fileTmpName, $fileDestination);
+                upload($description, $dateFrom, $dateTo);
+              } else {
+                  echo "<script language='JavaScript' type='text/javascript'> alert('Palun sisesta failinimi!');</script>";
+              }
+            } else {
+                echo "<script language='JavaScript' type='text/javascript'> alert('Palun sisesta algus ja lõpukuupäev!');</script>";
+            }
+          } else {
+              echo "<script language='JavaScript' type='text/javascript'> alert('Fail on liiga suur!');</script>";
+          }
         } else {
-          echo "fail on liiga suur";
+            echo "<script language='JavaScript' type='text/javascript'> alert('Oli viga üleslaadimisel!');</script>";
         }
       } else {
-          echo "oli viga üleslaadimisel";
+          echo "<script language='JavaScript' type='text/javascript'> alert('Sellist tüüpi faili ei saa üleslaadida!');</script>";
       }
     } else {
-        echo "Ei saa sellist tüüpi faili laadida";
-      }
+        echo "<script language='JavaScript' type='text/javascript'> alert('Palun valige fail üleslaadimiseks');</script>";
+    }
   }
  ?>
 

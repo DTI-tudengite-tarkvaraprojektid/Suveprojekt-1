@@ -155,12 +155,12 @@ function signup($firstName, $lastName, $email, $password){
 				$sentence3 = "<td > <p id='daysRemaining' >" .$dateDiff->format('%a päeva') ."</p></td>";
 				$sentence4 = "<td > <p id='daysRemaining' style='color: red;' >" .$dateDiff->format('%a päev') ."</p></td>";
 				$hiddenData = "<input type='hidden' name='hiddenId' id='hiddenId' value =" .$photoId ."><input type='hidden' name='hiddenExt' id='hiddenExt' value=" .$fileExt ."><input type='hidden' name='hiddenName' value=" .$description .">";
-				echo "<form action='myfiles.php' method='post' name='update'>";
+				echo "<form action='myfiles.php' method='post' name='update' id='photo" .$photoId ."'>";
 				echo "<tr>";
 				echo "<td> " .$source .$hiddenData ."</td>";
 				echo "<td> <input name='description' type='data' value='".pathinfo($description)['filename'] ."' class='dates'></td>";
-				echo "<td> <input name='dateFrom' type='date' value=" .$dateFrom ." class='dates'></td>";
-				echo "<td> <input name='dateTo' type='date' value=" .$dateTo ." class='dates'></td>";
+				echo "<td> <input onClick='date(this.id)' name='dateFrom' type='date' value=" .$dateFrom ." id=" .$photoId ." class='dates'></td>";
+				echo "<td> <input onClick='date(this.id)' name='dateTo' type='date' value=" .$dateTo ." id=" .$photoId ." class='dates'></td>";
 				if($dateDiff->format('%a') ==1){
 					echo $sentence4;
 				} elseif($dateDiff->format('%a') <= 7){
@@ -171,7 +171,7 @@ function signup($firstName, $lastName, $email, $password){
 						echo $sentence3;
 				}
 
-				echo "<td>  <input name='update' type='hidden' value='Redigeeri'/>$delete</td>";
+				echo "<td>  <input name='update' type='hidden' value='Redigeeri' id=change" .$photoId ." onkeydown='keyCode(event)' />$delete</td>";
 				echo"</tr>";
 				echo "</form>";
 				echo '</div>';

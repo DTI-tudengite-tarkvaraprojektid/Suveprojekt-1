@@ -81,7 +81,7 @@ function signup($firstName, $lastName, $email, $password){
 			$stmt->bind_param("sssi", $description, $dateFrom, $dateTo, $id);
 			echo "teade: ".$mysqli->error;
 			if($dateTo < $dateFrom){
-				echo "<script language='JavaScript' type='text/javascript'> alert('Lõpukuupäev ei saa ole väiksem!');</script>";
+				echo "<script language='JavaScript' type='text/javascript'> alert('Lõpukuupäev ei saa olla varem!');</script>";
 			} else {
 			$stmt->execute();
 			echo $stmt->error;
@@ -151,8 +151,9 @@ function signup($firstName, $lastName, $email, $password){
 				$dateEnd = date_create($dateTo);
 				$dateDiff = date_diff($dateNow, $dateEnd);
 				$sentence1 = "<td > <p id='daysRemaining' style='color: red;' >" .$dateDiff->format('%a päeva') ."</p></td>";
-		   		$sentence2 = "<td > <p id='daysRemaining' style='color: yellow;' >" .$dateDiff->format('%a päeva') ."</p></td>";
+		   	$sentence2 = "<td > <p id='daysRemaining' style='color: orange;' >" .$dateDiff->format('%a päeva') ."</p></td>";
 				$sentence3 = "<td > <p id='daysRemaining' >" .$dateDiff->format('%a päeva') ."</p></td>";
+				$sentence4 = "<td > <p id='daysRemaining' style='color: red;' >" .$dateDiff->format('%a päev') ."</p></td>";
 				$hiddenData = "<input type='hidden' name='hiddenId' id='hiddenId' value =" .$photoId ."><input type='hidden' name='hiddenExt' id='hiddenExt' value=" .$fileExt ."><input type='hidden' name='hiddenName' value=" .$description .">";
 				echo "<form action='myfiles.php' method='post' name='update'>";
 				echo "<tr>";
@@ -160,13 +161,16 @@ function signup($firstName, $lastName, $email, $password){
 				echo "<td> <input name='description' type='data' value='".pathinfo($description)['filename'] ."' class='dates'></td>";
 				echo "<td> <input name='dateFrom' type='date' value=" .$dateFrom ." class='dates'></td>";
 				echo "<td> <input name='dateTo' type='date' value=" .$dateTo ." class='dates'></td>";
-				if($dateDiff->format('%a') <= 7){
-					echo $sentence1;
+				if($dateDiff->format('%a') ==1){
+					echo $sentence4;
+				} elseif($dateDiff->format('%a') <= 7){
+						echo $sentence1;
 				} elseif($dateDiff->format('%a') <= 14) {
-					echo $sentence2;
+						echo $sentence2;
 				} else {
-					echo $sentence3;
+						echo $sentence3;
 				}
+
 				echo "<td>  <input name='update' type='hidden' value='Redigeeri'/>$delete</td>";
 				echo"</tr>";
 				echo "</form>";

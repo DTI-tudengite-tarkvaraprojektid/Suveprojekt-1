@@ -31,3 +31,6 @@ function date(clicked_id){
   });
 
 }
+function waitFunc(){
+  modal.style.display = "none";
+}

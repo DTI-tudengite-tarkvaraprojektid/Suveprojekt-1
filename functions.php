@@ -122,10 +122,10 @@ function signup($firstName, $lastName, $email, $password){
 		echo "\n";
 		echo '<div class="photoColumn" id="photoColumn"> ';
 		echo "\n";
-        echo "<style> table tr,th,td { color: black;  width:10%;font-family:Arial; background-color: #ffffff; border-bottom: 2px solid black;} \n";
+    echo "<style> table tr,th,td { color: black;  width:10%;font-family:Arial; background-color: #ffffff; border-bottom: 2px solid black;} \n";
 		echo "tr{ margin-left: 20px;} \n";
-        echo "table{width:150%;text-align:center; font-size:18px; border-collapse:collapse; border: 3px solid black;} \n";
-        echo "th{background-color:  #FFA500 ; color: white;  border-bottom: 2px solid black;} </style>";
+    echo "table{width:150%;text-align:center; font-size:18px; border-collapse:collapse; border: 3px solid black;} \n";
+    echo "th{background-color:  #FFA500 ; color: white;  border-bottom: 2px solid black;} </style>";
 		echo "<table>";
 		echo "<tr>";
 		echo "<th> Fail </th>";
@@ -141,8 +141,9 @@ function signup($firstName, $lastName, $email, $password){
 				$fileExt = pathinfo($description)['extension'];
 				$confirm = "Kas te olete kindel?";
 				if($fileExt == "pdf"){
-					$source = '<a target="_blank" href="uploads/' .$description .'" type="application/pdf" > '.pathinfo($description)['filename'] .' </a>';
+					$source = '<a target="_blank" href="uploads/' .$description .'" type="application/pdf" onclick="setTimeout(waitFunc, 100)"><img border="0" alt=' .$description .' src="pdf.png" width="50px" heigth="25px" ></a>';
 				} else {
+					setlocale(LC_ALL, 'en_US.UTF-8');
 					$source = '<img data-fn=' .$description .' class="photo" src="uploads/' .$description .'" data-id="' .$photoId .'" alt="' .pathinfo($description)['filename'] .'" style="height: 5vh; width: 10vh;">';
 				}
 				$delete = "<a onclick='return confirmDelete()' href=deleteThisFile.php?id=" .$photoId ."&file=".$description ." class='deleteBtn' ><img border='0' alt='Kustuta' src='delete_img.png' width='25px' height='25px'></a>";
@@ -154,14 +155,18 @@ function signup($firstName, $lastName, $email, $password){
 		   	$sentence2 = "<td > <p id='daysRemaining' style='color: orange;' >" .$dateDiff->format('%a päeva') ."</p></td>";
 				$sentence3 = "<td > <p id='daysRemaining' >" .$dateDiff->format('%a päeva') ."</p></td>";
 				$sentence4 = "<td > <p id='daysRemaining' style='color: red;' >" .$dateDiff->format('%a päev') ."</p></td>";
+				$sentence5 = "<td > <p id='daysRemaining' style='color: red;' >" .$dateDiff->format('%r%a päeva') ."</p></td>";
 				$hiddenData = "<input type='hidden' name='hiddenId' id='hiddenId' value =" .$photoId ."><input type='hidden' name='hiddenExt' id='hiddenExt' value=" .$fileExt ."><input type='hidden' name='hiddenName' value=" .$description .">";
 				echo "<form action='myfiles.php' method='post' name='update' id='photo" .$photoId ."'>";
 				echo "<tr>";
 				echo "<td> " .$source .$hiddenData ."</td>";
+				setlocale(LC_ALL, 'en_US.UTF-8');
 				echo "<td> <input name='description' type='data' value='".pathinfo($description)['filename'] ."' class='dates'></td>";
 				echo "<td> <input onClick='date(this.id)' name='dateFrom' type='date' value=" .$dateFrom ." id=" .$photoId ." class='dates'></td>";
 				echo "<td> <input onClick='date(this.id)' name='dateTo' type='date' value=" .$dateTo ." id=" .$photoId ." class='dates'></td>";
-				if($dateDiff->format('%a') ==1){
+				if($dateDiff->format('%r%a') < 0){
+					echo $sentence5;
+				} else if($dateDiff->format('%a') ==1){
 					echo $sentence4;
 				} elseif($dateDiff->format('%a') <= 7){
 						echo $sentence1;
@@ -201,7 +206,6 @@ function signup($firstName, $lastName, $email, $password){
 	}
 
 	function update(){
-
 		$updateFrom = $_POST['dateFrom'];
 		$updateTo = $_POST['dateTo'];
 		$hiddenExt = $_POST['hiddenExt'];
@@ -219,24 +223,32 @@ function signup($firstName, $lastName, $email, $password){
 			if($stmt->fetch()){
 				if($updateName == $_POST['description']  .".".$hiddenExt){
 					$stmt -> close();
-					$stmt = $mysqli->prepare("UPDATE failid SET algus = '$updateFrom', lopp = '$updateTo' WHERE id = $toUpdate ");
-					echo $mysqli->error;
-					$stmt->execute();
-					$stmt->close();
-					$mysqli->close();
+					if($updateFrom > $updateTo){
+						echo "<script language='JavaScript' type='text/javascript' > alert('Lõpukuupäev ei saa olla alguse kuupäevast varem.')</script>";
+					}else{
+						$stmt = $mysqli->prepare("UPDATE failid SET algus = '$updateFrom', lopp = '$updateTo' WHERE id = $toUpdate ");
+						echo $mysqli->error;
+						$stmt->execute();
+						$stmt->close();
+						$mysqli->close();
+					}
 				} else {
 					echo "<script language='JavaScript' type='text/javascript' > alert('Sellise nimega fail on juba olemas.')</script>";
 				}
 			} else {
 				$stmt -> close();
-				$stmt = $mysqli->prepare("UPDATE failid SET failinimi = '$updateName', algus = '$updateFrom', lopp = '$updateTo' WHERE id = $toUpdate ");
-				echo $mysqli->error;
-				$stmt->execute();
-				$stmt->close();
-				$mysqli->close();
-				$oldSrc = "uploads/" .$hiddenName;
-				$newSrc = "uploads/" .$updateName;
-				rename($oldSrc, $newSrc);
+				if($updateFrom > $updateTo){
+					echo "<script language='JavaScript' type='text/javascript' > alert('Lõpukuupäev ei saa olla alguse kuupäevast varem.')</script>";
+				}else{
+					$stmt = $mysqli->prepare("UPDATE failid SET failinimi = '$updateName', algus = '$updateFrom', lopp = '$updateTo' WHERE id = $toUpdate ");
+					echo $mysqli->error;
+					$stmt->execute();
+					$stmt->close();
+					$mysqli->close();
+					$oldSrc = "uploads/" .$hiddenName;
+					$newSrc = "uploads/" .$updateName;
+					rename($oldSrc, $newSrc);
+				}
 			}
 		}
 	}

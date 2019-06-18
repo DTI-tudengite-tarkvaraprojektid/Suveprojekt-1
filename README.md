@@ -1,3 +1,2 @@
 Suveprojekt
 
-Andri Kaljumäe

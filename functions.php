@@ -1,5 +1,6 @@
 <?php
 require ("../../../config.php");
+header('Content-Type: text/html; charset=utf-8');
 $database = "if18_andri_ka_1";
 session_start();
 function signin($email, $password){
@@ -35,26 +36,25 @@ function signin($email, $password){
 	$mysqli->close();
 	return $notice;
   }//sisselogimine lõppeb
+
 function signup($firstName, $lastName, $email, $password){
 	$notice = "";
 	$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
-	//kontrollime, ega kasutajat juba olemas pole
 	$stmt = $mysqli->prepare("SELECT id FROM kasutajad WHERE email=?");
 	echo $mysqli->error;
 	$stmt->bind_param("s",$email);
 	$stmt->execute();
 	if($stmt->fetch()){
-		//leiti selline, seega ei saa uut salvestada
 		$notice = "Sellise kasutajatunnusega (" .$email .") kasutaja on juba olemas! Uut kasutajat ei salvestatud!";
 	} else {
-		$stmt->close();
-		$stmt = $mysqli->prepare("INSERT INTO kasutajad (firstname, lastname, email, counter, password) VALUES(?,?,?,1, ?)");
+			$stmt->close();
+			$stmt = $mysqli->prepare("INSERT INTO kasutajad (firstname, lastname, email, counter, password) VALUES(?,?,?,1, ?)");
     	echo $mysqli->error;
 	    $options = ["cost" => 12, "salt" => substr(sha1(rand()), 0, 22)];
 	    $pwdhash = password_hash($password, PASSWORD_BCRYPT, $options);
 	    $stmt->bind_param("ssss", $firstName, $lastName, $email, $pwdhash);
 	    if($stmt->execute()){
-		  $notice = "ok";
+		  	$notice = "Kasutaja edukalt loodud";
 	    } else {
 	      $notice = "error" .$stmt->error;
 	    }
@@ -83,11 +83,11 @@ function signup($firstName, $lastName, $email, $password){
 			if($dateTo < $dateFrom){
 				echo "<script language='JavaScript' type='text/javascript'> alert('Lõpukuupäev ei saa olla varem!');</script>";
 			} else {
-			$stmt->execute();
-			echo $stmt->error;
-			echo "<script language='JavaScript' type='text/javascript'> alert('Fail üleslaetud!');</script>";
-				}
-		}
+				$stmt->execute();
+				echo $stmt->error;
+				echo "<script language='JavaScript' type='text/javascript'> alert('Fail üleslaetud!');</script>";
+					}
+			}
 		$stmt ->close();
 		$mysqli->close();
 		return $notice;
@@ -142,6 +142,7 @@ function signup($firstName, $lastName, $email, $password){
 				$confirm = "Kas te olete kindel?";
 				if($fileExt == "pdf"){
 					$source = '<a target="_blank" href="uploads/' .$description .'" type="application/pdf" onclick="setTimeout(waitFunc, 100)"><img border="0" alt=' .$description .' src="pdf.png" width="50px" heigth="25px" ></a>';
+					echo "<script language='JavaScript' type='text/javascript' > </script>";
 				} else {
 					setlocale(LC_ALL, 'en_US.UTF-8');
 					$source = '<img data-fn=' .$description .' class="photo" src="uploads/' .$description .'" data-id="' .$photoId .'" alt="' .pathinfo($description)['filename'] .'" style="height: 5vh; width: 10vh;">';
@@ -253,7 +254,6 @@ function signup($firstName, $lastName, $email, $password){
 		}
 	}
 	function test_input($data) {
-		//echo "Koristan!\n";
 		$data = trim($data);
 		$data = stripslashes($data);
 		$data = htmlspecialchars($data);

@@ -4,9 +4,9 @@
 	$email = "";
 	$firstName = "";
   $lastName = "";
-	//muutujad võimalike veateadetega
+	$notice = "";
 	$firstNameError = "";
-    $lastNameError = "";
+  $lastNameError = "";
 	$emailError = "";
 	$passwordError = "";
 	$error = "";
@@ -54,15 +54,10 @@
 	//kui kõik on korras, siis salvestame kasutaja
 	if(empty($firstNameError) and empty($lastNameError) and empty($emailError) and empty($passwordError)){
 		$notice = signup($firstName, $lastName, $email, $password, $password2);
-		echo $notice;
-		echo"<script language='javascript'>
-				alert('Kasutaja loodud!');
-				window.location.href = 'avaleht.php';
-		</script>";
-	}else{
+	} else{
 		$error = "Kasutaja loomisel tekkis viga!";
 	}
-	}//kui on nuppu vajutatud lõppeb ära
+	}
 }
 ?>
 
@@ -80,8 +75,8 @@
 	   <div> <img src="signature.png" id="logo" alt="logo"></div>
 		<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 		    <h1>Konto loomine</h1>
-			<input name="firstName" type="text" placeholder="Eesnimi" value="<?php echo $firstName; ?>"><br>
-      <input name="lastName" type="text" placeholder="Perekonnanimi" value="<?php echo $lastName; ?>"><br>
+			<input name="firstName" pattern="[A-Za-zõäöüÕÄÖÜ]*" type="text" placeholder="Eesnimi" value="<?php echo $firstName; ?>"><br>
+      <input name="lastName" pattern="[A-Za-zõäöüÕÄÖÜ]*" type="text" placeholder="Perekonnanimi" value="<?php echo $lastName; ?>"><br>
 			<input type="email" name="email" placeholder="E-Mail" value="<?php echo $email; ?>"><br>
 			<input type="password" name="password" type="text" placeholder="Salasõna" ><br>
 			<input type="password" name="password2" type="text" placeholder="Salasõna uuesti" ><br>
@@ -89,11 +84,8 @@
 		<br>
 			<a style="text-align:left;" href="avaleht.php">Tagasi avalehele</a>
 		</form>
-		<a1><?php echo $error; ?></a1>
-		<a1><?php echo $passwordError; ?></a1>
-		<a1><?php echo $emailError; ?></a1>
-		<a1><?php echo $lastNameError; ?></a1>
-		<a1><?php echo $firstNameError; ?></a1>
+		<a1><?php echo $notice; ?></a1>
+
 	</div>
 </body>
 </html>

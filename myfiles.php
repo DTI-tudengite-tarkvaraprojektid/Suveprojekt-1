@@ -5,12 +5,10 @@
   global $dateTo;
   global $dateNotice;
   global $photoID;
-  //kui pole sisse loginud
   if(!isset($_SESSION["userId"])){
 	  header("Location: avaleht.php");
 	  exit();
   }
-  //väljalogimine
   if(isset($_GET["logout"])){
 	session_destroy();
 	header("Location: avaleht.php");
@@ -22,10 +20,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" type="text/css" href="modal.css">
-  <link rel="stylesheet" type="text/css" href="pealeht.css">
-  <script src="pealeht.js"></script>
-  <script src="modal.js" defer></script>
+  <link rel="stylesheet" type="text/css" href="style/modal.css">
+  <link rel="stylesheet" type="text/css" href="style/pealeht.css">
+  <script src="javascript/pealeht.js"></script>
+  <script src="javascript/modal.js" defer></script>
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Failid</title>
 </head>

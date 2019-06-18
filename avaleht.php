@@ -29,14 +29,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" type="text/css" href="avaleht.css">
+  <link rel="stylesheet" type="text/css" href="style/avaleht.css">
   <title>Avaleht</title>
 </head>
 <body>
   <div id="main">
-    <div> <img src="signature.png" id="logo" alt="logo"></div>
+    <div> <img src="pics/signature.png" id="logo" alt="logo"></div>
     <h2>Parim lahendus Sinu lepingute haldamiseks!</h2>
-    <p>Signature on uudne tarkvara teie lepingute paremaks ning turvalisemaks käsitlemiseks. Hoiusta lepinguid, saa märku nende lõppemisest, pikenda ning vajadusel kustuta neid – kõik mugavalt ühest kohast.</p>
+    <p>Signature on uudne veebilehestik teie lepingute paremaks ning turvalisemaks käsitlemiseks. Hoiusta lepinguid, saa märku nende lõppemisest, pikenda ning vajadusel kustuta neid – kõik mugavalt ühest kohast.</p>
     <h1>Sisselogimine</h1>
     <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
       <input type="email" name="email" placeholder="E-Mail" value="<?php echo $email; ?>"><br>

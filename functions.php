@@ -35,7 +35,7 @@ function signin($email, $password){
 	$stmt->close();
 	$mysqli->close();
 	return $notice;
-  }//sisselogimine lõppeb
+  }
 
 function signup($firstName, $lastName, $email, $password){
 	$notice = "";
@@ -75,7 +75,7 @@ function signup($firstName, $lastName, $email, $password){
 		$stmt->execute();
 		if($stmt->fetch()){
 			echo "<script language='JavaScript' type='text/javascript'> alert('Sellise nimega fail on juba olemas');</script>";
-		}else{
+		}	else{
 			$stmt -> close();
 			$stmt = $mysqli->prepare("INSERT INTO failid (failinimi, algus, lopp, kasutaja_id) VALUES(?,?,?,?)");
 			$stmt->bind_param("sssi", $description, $dateFrom, $dateTo, $id);
@@ -86,11 +86,11 @@ function signup($firstName, $lastName, $email, $password){
 				$stmt->execute();
 				echo $stmt->error;
 				echo "<script language='JavaScript' type='text/javascript'> alert('Fail üleslaetud!');</script>";
-					}
 			}
-		$stmt ->close();
-		$mysqli->close();
-		return $notice;
+			}
+			$stmt ->close();
+			$mysqli->close();
+			return $notice;
 	}
 	function showupload($description, $dateFrom, $dateTo){
 		$id = $_SESSION["userId"];
@@ -147,7 +147,7 @@ function signup($firstName, $lastName, $email, $password){
 					setlocale(LC_ALL, 'en_US.UTF-8');
 					$source = '<img data-fn=' .$description .' class="photo" src="uploads/' .$description .'" data-id="' .$photoId .'" alt="' .pathinfo($description)['filename'] .'" style="height: 5vh; width: 10vh;">';
 				}
-				$delete = "<a onclick='return confirmDelete()' href=deleteThisFile.php?id=" .$photoId ."&file=".$description ." class='deleteBtn' ><img border='0' alt='Kustuta' src='delete_img.png' width='25px' height='25px'></a>";
+				$delete = "<a onclick='return confirmDelete()' href=deleteThisFile.php?id=" .$photoId ."&file=".$description ." class='deleteBtn' ><img border='0' alt='Kustuta' src='pics/delete_img.png' width='25px' height='25px'></a>";
 				$dateNow = date("Y-m-d");
 				$dateNow = date_create($dateNow);
 				$dateEnd = date_create($dateTo);
@@ -205,7 +205,6 @@ function signup($firstName, $lastName, $email, $password){
 	if(isset($_POST['update'])){
 		update();
 	}
-
 	function update(){
 		$updateFrom = $_POST['dateFrom'];
 		$updateTo = $_POST['dateTo'];

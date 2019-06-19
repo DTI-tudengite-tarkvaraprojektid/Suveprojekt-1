@@ -2,7 +2,7 @@
 # Suveprojekt praktika
 #### http://greeny.cs.tlu.ee/~andrkal/Tarkvara_praktika/Suveprojekt/avaleht.php
 
-## Tallinna Ülikool 2019 Digitehnoloogia instituut, informaatika eriala. Projekt on loodud Tarkvaraarenduse praktika raames.  
+### Tallinna Ülikool 2019 Digitehnoloogia instituut, informaatika eriala. Projekt on loodud Tarkvaraarenduse praktika raames.  
 
 
 ## Liikmed

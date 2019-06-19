@@ -86,7 +86,7 @@ require ("functions.php");
     <div class="grid-body">
       <div id="form" class="form">
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" enctype="multipart/form-data">
-        <div> <img src="signature.png" id="logo" alt="logo"></div>
+        <div> <img src="pics/signature.png" id="logo" alt="logo"></div>
         <h1>Lae leping üles</h1>
         <input type="file" name="fileToUpload" id="fileToUpload">
         <p>Faili nimi:</p>

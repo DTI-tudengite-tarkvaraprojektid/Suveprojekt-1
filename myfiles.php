@@ -5,6 +5,7 @@
   global $dateTo;
   global $dateNotice;
   global $photoID;
+
   if(!isset($_SESSION["userId"])){
 	  header("Location: avaleht.php");
 	  exit();
@@ -51,13 +52,13 @@
           </form>
           <form action="myfiles.php" method="post">
             <select id="select" name="subject">
-              <option value="failinimi" selected="selected">Nimi</option>
-              <option value="Timestamp">Üleslaadimis kuupäev</option>
-              <option value="lopp">Lõpu kuupäev</option>
+              <option value="failinimi" >Nimi</option>
+              <option value="Timestamp">Algus kuupäev</option>
+              <option value="lopp" selected="selected">Lõpu kuupäev</option>
             </select>
             <select id="select" name="sort">
-              <option value="ASC">Kasvav </option>
-              <option value="DESC" selected="selected">Kahanev </option>
+              <option value="ASC" selected="selected">Kasvav </option>
+              <option value="DESC" >Kahanev </option>
             </select>
             <input id="sortbutton" name="sortButton" type="submit" value="Sorteeri"/>
           </form>

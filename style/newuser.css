@@ -1,13 +1,16 @@
 #main {
     position: absolute;
     text-align: center;
-    transform: translate(-50%, -50%);
-    top: 36%;
-    left: 50%;
+    margin-top: 2%;
+    margin-left: 35%;
+    width: 30%;
+    height: 40%;
+
 }
 #logo {
     margin-left: 5px;
-    width: 74%;
+    width: 83%;
+
 }
 #main h1 {
     color: #000000;
@@ -38,7 +41,3 @@
     color: white;
     font-size: 20px;
 }
-#logo {
-    margin-left: 5px;
-    width: 70%;
-  }

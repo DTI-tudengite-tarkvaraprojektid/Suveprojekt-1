@@ -44,6 +44,14 @@ CREATE TABLE `kasutajad` ( `id` INT(11) NOT NULL AUTO_INCREMENT , `firstname` VA
 
 CREATE TABLE `failid` ( `id` INT(10) NOT NULL AUTO_INCREMENT , `failinimi` VARCHAR(30) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL , `algus` DATE NOT NULL , `lopp` DATE NOT NULL , `kasutaja_id` INT(30) NOT NULL , `Timestamp` DATE NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 
+## Config fail
+<?php
+	$serverHost = "localhost";
+	$serverUsername = "if18";
+	$serverPassword = "ifikas18";
+	$uploads = "uploads/";
+?>
+
 ## Kasutatud tehnoloogiad
 * Visual Studio Code 1.35.1
 * Atom 1.38

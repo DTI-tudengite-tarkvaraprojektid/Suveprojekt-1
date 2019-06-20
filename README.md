@@ -34,13 +34,15 @@ Juhised, kuidas paigaldada leht endale (väljaspool greeny serverit):
 
 * Klooni GitHubi repositoorium: https://github.com/andrikaljumae/Suveprojekt/
 * Kloonitud kausta luua uus kaust nimega "Uploads"
-* Loo phpMyAdmin lehel andmebaasi tabelid (SQL käsklused all pool)
+* Loo phpMyAdmin lehel andmebaasi tabelid (MySQL käsklused all pool)
 * Mine asukohta, kuhu kloonisid GitHubi repositooriumi
 
-### SQL käsklused
+### MySQL käsklused
+Käsklused tuleb kopeerida phpMyAdmin lehel SQL-i lahtrisse. 
 
+CREATE TABLE `kasutajad` ( `id` INT(11) NOT NULL AUTO_INCREMENT , `firstname` VARCHAR(30) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL , `lastname` VARCHAR(30) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL , `email` VARCHAR(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL , `counter` INT(11) NOT NULL , `password` VARCHAR(60) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL , `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 
-
+CREATE TABLE `failid` ( `id` INT(10) NOT NULL AUTO_INCREMENT , `failinimi` VARCHAR(30) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL , `algus` DATE NOT NULL , `lopp` DATE NOT NULL , `kasutaja_id` INT(30) NOT NULL , `Timestamp` DATE NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 
 ## Kasutatud tehnoloogiad
 * Visual Studio Code 1.35.1

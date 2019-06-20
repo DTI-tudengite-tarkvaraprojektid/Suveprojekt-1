@@ -33,9 +33,14 @@ Leht asub hetkel Tallinna Ülikooli greeny serveris, kuhu saab näiteks läbi Pu
 Juhised, kuidas paigaldada leht endale (väljaspool greeny serverit):
 
 * Klooni GitHubi repositoorium: https://github.com/andrikaljumae/Suveprojekt/
-* Loo sinna kaust nimega "Uploads"
-* Loo tabelid (käsklused all pool)
+* Kloonitud kausta luua uus kaust nimega "Uploads"
+* Loo phpMyAdmin lehel andmebaasi tabelid (SQL käsklused all pool)
 * Mine asukohta, kuhu kloonisid GitHubi repositooriumi
+
+### SQL käsklused
+
+
+
 
 ## Kasutatud tehnoloogiad
 * Visual Studio Code 1.35.1

@@ -26,7 +26,16 @@ Klient saab endale luua kasutaja ja sisse logida. Kasutajana saab üles laadida 
 
 
 ## Paigaldus
-// selgeid paigaldusjuhiseid ja arenduskeskkonna ülesseadmise juhised, et kes iganes saaks selle vajadusel käima (näiteks andmebaasi tabelid jm info peaks olema teksti kujul, et saaks kopeerida);//
+Meie projektiks on veebilehestik, mille kasutamiseks on vaja veebibrauserit. Meie soovituseks oleks kasutada Google Chrome'i kõige hilisemat versiooni. 
+
+Leht asub hetkel Tallinna Ülikooli greeny serveris, kuhu saab näiteks läbi Putty tarkvara, kuid sealt saavad ligi ainult kasutajat omavad isikud. Lehekülje külastamiseks tuleb minna sellisel juhul: greeny.cs.tlu.ee/~andrkal/Tarkvara_praktika/Suveprojekt/avaleht.php
+
+Juhised, kuidas paigaldada leht endale (väljaspool greeny serverit):
+
+* Klooni GitHubi repositoorium: https://github.com/andrikaljumae/Suveprojekt/
+* Loo sinna kaust nimega "Uploads"
+* Loo tabelid (käsklused all pool)
+* Mine asukohta, kuhu kloonisid GitHubi repositooriumi
 
 ## Kasutatud tehnoloogiad
 * Visual Studio Code 1.35.1

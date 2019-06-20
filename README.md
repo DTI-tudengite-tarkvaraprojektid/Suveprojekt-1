@@ -46,9 +46,9 @@ CREATE TABLE `failid` ( `id` INT(10) NOT NULL AUTO_INCREMENT , `failinimi` VARCH
 
 ## Config fail
 <?php
-	$serverHost = "localhost";
-	$serverUsername = "if18";
-	$serverPassword = "ifikas18";
+	$serverHost = "xxxxxxxxxx";
+	$serverUsername = "xxxx";
+	$serverPassword = "xxxxxxxx";
 	$uploads = "uploads/";
 ?>
 

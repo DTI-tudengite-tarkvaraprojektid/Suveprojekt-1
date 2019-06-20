@@ -32,10 +32,12 @@ Leht asub hetkel Tallinna Ülikooli greeny serveris, kuhu saab näiteks läbi Pu
 
 Juhised, kuidas paigaldada leht endale (väljaspool greeny serverit):
 
-* Klooni GitHubi repositoorium: https://github.com/andrikaljumae/Suveprojekt/
-* Kloonitud kausta luua uus kaust nimega "Uploads"
+* Klooni GitHubi repositoorium (https://github.com/andrikaljumae/Suveprojekt/) veebikausta
+* Luua kausta uus fail nimega config.php, mille sisu leiab alt poolt
+* Failis functions.php muuta lause: require ("../../../config.php"); ---> require ("config.php");
+* Kloonitud kausta luua uus kaust nimega "uploads"
 * Loo phpMyAdmin lehel andmebaasi tabelid (MySQL käsklused all pool)
-* Mine asukohta, kuhu kloonisid GitHubi repositooriumi
+
 
 ### MySQL käsklused
 Käsklused tuleb kopeerida phpMyAdmin lehel SQL-i lahtrisse. 
